@@ -23,3 +23,16 @@ import Route from '@ioc:Adonis/Core/Route'
 Route.get('/', async () => {
   return { hello: 'world' }
 })
+
+
+//######### Todo Routes ######### 
+Route.group(() => {
+  Route.get('/', 'TodosController.list')
+  Route.post('/', 'TodosController.create')
+  Route.get('/:id', 'TodosController.show')
+  Route.delete('/:id', 'TodosController.delete')
+  Route.put('/:id', 'TodosController.update')
+
+})
+  .middleware([])
+  .prefix('/api/todos')
