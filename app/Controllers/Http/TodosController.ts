@@ -1,61 +1,64 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import { failResponseHandler, successResponseHandler } from 'App/Helpers/LogHelper';
 import Todo from 'App/Models/Todo'
 
+const CONTROLLER_NAME = 'TodosController';
+
 export default class TodosController {
-    public async list({ request, params, response }: HttpContextContract) {
+    public async list({ }: HttpContextContract) {
         try {
             const todos = await Todo.query();
-            return response.json(todos);
+
+            return successResponseHandler('Todos list', todos)
         } catch (e) {
-            console.log(e)
-            return response.json('failed to get' + e.message)
+            return failResponseHandler('Error in listing', `${CONTROLLER_NAME} listing error:`, e);
         }
     }
-    public async create({ request, params, response }: HttpContextContract) {
+    public async create({ request }: HttpContextContract) {
         try {
             let todo = request.all();
             todo = await Todo.create({ title: todo.title, description: todo.description, status: todo.status })
 
-            return response.json(todo);
+            return successResponseHandler('Todo created', todo)
         } catch (e) {
-            console.log(e)
-            return response.json('failed to get' + e.message)
+            return failResponseHandler('Error in create', `${CONTROLLER_NAME} create error:`, e);
         }
     }
-    public async show({ request, response }: HttpContextContract) {
+    public async show({ request }: HttpContextContract) {
         try {
 
             let id = request.param('id');
             const todo = await Todo.query().where({ id }).first();
+            if (!todo) {
+                return failResponseHandler(`todo with id: ${id} not found.`);
+            }
 
-            return response.json(todo);
+            return successResponseHandler('Todo detail', todo)
         } catch (e) {
-            console.log(e)
-            return response.json('failed to get' + e.message)
+            return failResponseHandler('Error in show', `${CONTROLLER_NAME} show error:`, e);
         }
     }
 
-    public async delete({ request, response }: HttpContextContract) {
+    public async delete({ request }: HttpContextContract) {
         try {
 
             let id = request.param('id');
 
             const todo = await Todo.query().where({ id }).first();
             if (!todo) {
-                return response.json(`todo with id: ${id} not found.`)
+                return failResponseHandler(`todo with id: ${id} not found.`);
             }
 
 
             await Todo.query().where({ id }).delete();
 
-            return response.json(`todo with id: ${id} deleted successfully.`)
+            return successResponseHandler(`todo with id: ${id} deleted successfully.`)
         } catch (e) {
-            console.log(e)
-            return response.json('failed to get' + e.message)
+            return failResponseHandler('Error in delete', `${CONTROLLER_NAME} delete error:`, e);
         }
     }
 
-    public async update({ request, response }: HttpContextContract) {
+    public async update({ request }: HttpContextContract) {
         try {
 
             let id = request.param('id');
@@ -66,16 +69,15 @@ export default class TodosController {
 
 
             if (!todo) {
-                return response.json(`todo with id: ${id} not found.`)
+                return failResponseHandler(`todo with id: ${id} not found.`);
             }
 
 
             const updatedTodo = await todo.merge({ title: payload.title, description: payload.description, status: payload.status }).save();
 
-            return response.json(updatedTodo);
+            return successResponseHandler(`todo with id: ${id} updated successfully.`, updatedTodo)
         } catch (e) {
-            console.log(e)
-            return response.json('failed to get' + e.message)
+            return failResponseHandler('Error in update', `${CONTROLLER_NAME} update error:`, e);
         }
     }
 }
