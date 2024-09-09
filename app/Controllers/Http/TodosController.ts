@@ -1,6 +1,7 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { failResponseHandler, successResponseHandler } from 'App/Helpers/LogHelper';
 import Todo from 'App/Models/Todo'
+import { createValidator } from 'App/Validators/todosValidators';
 
 const CONTROLLER_NAME = 'TodosController';
 
@@ -16,7 +17,9 @@ export default class TodosController {
     }
     public async create({ request }: HttpContextContract) {
         try {
-            let todo = request.all();
+            // let todo = request.all();
+            let todo = await request.validate(createValidator)
+
             todo = await Todo.create({ title: todo.title, description: todo.description, status: todo.status })
 
             return successResponseHandler('Todo created', todo)
@@ -24,7 +27,7 @@ export default class TodosController {
             return failResponseHandler('Error in create', `${CONTROLLER_NAME} create error:`, e);
         }
     }
-    public async show({ request }: HttpContextContract) {
+    public async get({ request }: HttpContextContract) {
         try {
 
             let id = request.param('id');
@@ -63,7 +66,7 @@ export default class TodosController {
 
             let id = request.param('id');
 
-            const payload = request.all();
+            const payload = await request.validate(createValidator);
 
             const todo = await Todo.query().where({ id }).first();
 
@@ -73,7 +76,8 @@ export default class TodosController {
             }
 
 
-            const updatedTodo = await todo.merge({ title: payload.title, description: payload.description, status: payload.status }).save();
+            const updatedTodo = await todo.merge(payload).save();
+            // const updatedTodo = await todo.merge({ title: payload.title, description: payload.description, status: payload.status }).save();
 
             return successResponseHandler(`todo with id: ${id} updated successfully.`, updatedTodo)
         } catch (e) {

@@ -29,7 +29,7 @@ Route.get('/', async () => {
 Route.group(() => {
   Route.get('/', 'TodosController.list')
   Route.post('/', 'TodosController.create')
-  Route.get('/:id', 'TodosController.show')
+  Route.get('/:id', 'TodosController.get')
   Route.delete('/:id', 'TodosController.delete')
   Route.put('/:id', 'TodosController.update')
 
