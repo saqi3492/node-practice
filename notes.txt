@@ -1,0 +1,33 @@
+Addonis setup
+
+https://v5-docs.adonisjs.com/guides/database/introduction
+
+
+npm init adonis-ts-app@latest hello-world    // make new project
+
+// install db
+npm i @adonisjs/lucid@18.4.0    // install db module
+node ace configure @adonisjs/lucid  // configure
+
+// set .env
+
+// make migration
+node ace make:migration Todo   // this will define user table in database/migration folder   // add some more columns in it       
+node ace migration:run    // this will create table in DB.
+
+// make model
+node ace make:model Todo     // add columns that created above in it 
+           
+// make controller
+node ace make:controller Todo
+
+
+In migration we just need to make relation between child and parent table i.e only in child migratiom. 
+While in model we need to mention relation in both models. like in User and Todos case, we will mention hasMany relation in User model and hasOne relation in Todo model.
+
+
+commands  ->  long running tasks 
+config folder -> files are created by Node, services.ts is constants.js
+seeder code runs manually and we can add initial db data with it 
+$node ace  -> give all list of options for addonis application
+$node ace migration:run to create table in db
