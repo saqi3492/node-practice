@@ -25,6 +25,14 @@ node ace make:controller Todo
 In migration we just need to make relation between child and parent table i.e only in child migratiom. 
 While in model we need to mention relation in both models. like in User and Todos case, we will mention hasMany relation in User model and hasOne relation in Todo model.
 
+Seeder are used to add dummy data in the table and we need to run seedar manually. Seeder do not add dummy data in the table automatically.
+node ace make:seeder TodoSeeder   // add dymmy data in it
+node ace db:seed   // this will add data in the DB
+
+node ace db:seed --files ./database/seeders/TodoSeeder.ts   // to run a specific seeder file
+
+
+
 
 commands  ->  long running tasks 
 config folder -> files are created by Node, services.ts is constants.js
