@@ -17,6 +17,16 @@ node ace migration:run    // this will create table in DB.
 
 // make model
 node ace make:model Todo     // add columns that created above in it 
+
+node ace make:model User -m
+# CREATE: database/migrations/1618903673925_users.ts
+# CREATE: app/Models/User.ts
+
+node ace make:model helpp -mc
+#CREATE: app/Models/Helpp.ts
+#CREATE: database/migrations/1725987397922_helpps.ts
+#CREATE: app/Controllers/Http/HelppsController.ts
+
            
 // make controller
 node ace make:controller Todo
@@ -30,7 +40,7 @@ node ace make:seeder TodoSeeder   // add dymmy data in it
 node ace db:seed   // this will add data in the DB
 
 node ace db:seed --files ./database/seeders/TodoSeeder.ts   // to run a specific seeder file
-
+node ace db:seed -i   // to run a specific seeder file  -i is interactive, this is easy
 
 
 
