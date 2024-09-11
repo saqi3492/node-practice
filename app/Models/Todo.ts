@@ -3,7 +3,9 @@ import { BaseModel, BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
 import User from './User'
 
 export default class Todo extends BaseModel {
-  @column({ isPrimary: true })
+  public static primaryKey = 'id';
+
+  @column()
   public id: number
 
 
