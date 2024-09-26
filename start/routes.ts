@@ -24,6 +24,17 @@ Route.get('/', async () => {
   return { hello: 'world' }
 })
 
+//######### User Routes ######### 
+Route.group(() => {
+  Route.get('/', 'UsersController.list')
+  Route.post('/', 'UsersController.create')
+  Route.get('/:id', 'UsersController.get')
+  Route.delete('/:id', 'UsersController.delete')
+  Route.put('/:id', 'UsersController.update')
+
+})
+  .middleware([])
+  .prefix('/api/users')
 
 //######### Todo Routes ######### 
 Route.group(() => {
