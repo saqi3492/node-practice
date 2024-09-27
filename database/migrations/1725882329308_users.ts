@@ -10,7 +10,7 @@ export default class extends BaseSchema {
       table.string('name').notNullable()
       table.string('email').notNullable().unique()
       table.string('password').notNullable()
-      table.boolean('is_active').defaultTo(false)
+      table.boolean('is_active').defaultTo(true)
 
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL

@@ -20,3 +20,13 @@ export default class UsersController {
         }
     }
 }
+
+export const getUserByEmail = async (email: string) => {
+    if (!email) return null;
+    try {
+        return await User.query().where({ email }).first()
+    } catch (e) {
+        console.log(e);
+        return null;
+    }
+}

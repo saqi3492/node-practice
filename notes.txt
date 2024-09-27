@@ -49,3 +49,10 @@ config folder -> files are created by Node, services.ts is constants.js
 seeder code runs manually and we can add initial db data with it 
 $node ace  -> give all list of options for addonis application
 $node ace migration:run to create table in db
+
+AUTHENTICATION
+
+$ npm i @adonisjs/auth@8.2.3
+$ node ace configure @adonisjs/auth 
+
+ignore user migration because we already have that. but add #passwd logic in existing user migration

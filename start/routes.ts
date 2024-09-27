@@ -24,17 +24,13 @@ Route.get('/', async () => {
   return { hello: 'world' }
 })
 
-//######### User Routes ######### 
+//######### Auth Routes ######### 
 Route.group(() => {
-  Route.get('/', 'UsersController.list')
-  Route.post('/', 'UsersController.create')
-  Route.get('/:id', 'UsersController.get')
-  Route.delete('/:id', 'UsersController.delete')
-  Route.put('/:id', 'UsersController.update')
-
+  Route.post('/signup', 'AuthController.signup')
+  Route.post('/login', 'AuthController.login')
 })
   .middleware([])
-  .prefix('/api/users')
+  .prefix('/api')
 
 //######### Todo Routes ######### 
 Route.group(() => {
@@ -45,5 +41,19 @@ Route.group(() => {
   Route.put('/:id', 'TodosController.update')
 
 })
-  .middleware([])
+  .middleware(['auth'])
   .prefix('/api/todos')
+
+
+// //######### User Routes ######### 
+// Route.group(() => {
+//   Route.get('/', 'UsersController.list')
+//   Route.post('/', 'UsersController.create')
+//   Route.get('/:id', 'UsersController.get')
+//   Route.delete('/:id', 'UsersController.delete')
+//   Route.put('/:id', 'UsersController.update')
+
+// })
+//   .middleware(['auth'])
+//   .prefix('/api/users')
+
